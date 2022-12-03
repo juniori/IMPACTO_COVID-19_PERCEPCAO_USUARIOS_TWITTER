@@ -1,14 +1,22 @@
+
+
 rm(list = ls())
+source("funcoes.r")
 
 
-#Session work directory: C:\Users\junior\Google Drive\_Mestrado\SEAN\Dissertacao_Celso\resources\datasets
 df <- read.csv('exp1_perc.csv', header = TRUE, sep = ',' , colClasses=c("NULL", NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
 
 View(df)
 
-# Veiricando se o somentório de cada linha é igual a 2. (1 para a soma dos percentuais "Antes" e 1 para "Depois")
-min(rowSums(df))
-max(rowSums(df))
+#Verificando se o somatório de cada linha de ambos os grupos(Antes e Depois) é igual a 1.
+
+#Primeiras 7 colunas (Negativos)
+min(rowSums(df[,(1:7)]))
+max(rowSums(df[,(1:7)]))
+
+#Útima 7 colunas (Negativos)
+min(rowSums(df[,(8:14)]))
+max(rowSums(df[,(8:14)]))
 
 
 
@@ -22,14 +30,16 @@ max(rowSums(df))
 
 colname <- c()
 pvalue <- c()
+isNomal_H0 <- c()
 
 for(i in 1:ncol(df)) {
-  shap = shapiro.test(df[ , i])
   colname <- append(colname,colnames(df)[i])
+  shap = shapiro.test(df[ , i])
   pvalue <- append(pvalue,shap$p.value)
+  isNomal_H0 <- append(isNomal_H0, shap$p.value > 0.05)
 }
 
-result <- data.frame(colname, pvalue)
+result <- data.frame(colname, pvalue, isNomal_H0)
 print (result)
 
 # Conclusão: como p-value < 0.05, rejeitamos a hipótese de normalidade (para todos os grupos)
@@ -42,31 +52,33 @@ print (result)
 # O teste de Levene(pacote lawstatdo R) recebe dois grupos de dados com o mesmo número de informações e verifica se eles têm a mesma variância
 # H0: Aceitamos a hipótese de homocedasticidade para, p > 0,05
 # HA: pelo menos 1 grupo apreseta variância diferente dos demais grupos, p <= 0,05
+# ref: https://www.rdocumentation.org/packages/lawstat/versions/3.2/topics/levene.test
 # ------------------------------------------------------------------------------------------------------------------------------------------
+
 
 if(!require(lawstat)) install.packages("lawstat")
 library(lawstat)
 
 colname <- c()
 pvalue <- c()
+isHomocedasticos_H0 <- c()
 
 sufix_cols <-c('NFO','NFR', 'NME', 'NEU', 'PFO', 'PFR', 'PME');
 for (c in sufix_cols){
   
   colA = paste0('A_',c)
   colD = paste0('D_',c)
-
-  levne = levene.test(df[,colA], df[,colD])
-
+  
   colname <- append(colname, paste(colA,colD, sep=" e "))
+  levne = levene.test(df[,colA], df[,colD], location = "mean")
   pvalue <- append(pvalue,levne$p.value)  
-  print(levne$p.value > 0.05)
+  isHomocedasticos_H0 <- append(isHomocedasticos_H0, levne$p.value > 0.05)
+  
 }
-result <- data.frame(colname, pvalue)
+result <- data.frame(colname, pvalue, isHomocedasticos_H0)
 print (result)
 
-
-#Conclusão: Aceitamos a hipótese de homocedasticidade (variância similar  p > 0,05) para todos os grupos comparados.
+#Conclusão: Rejeitamos a hipótese de homocedasticidade para todos os grupos comparados.
 
 
 # ------------------------------------------------------------------------------------------------------------------------------------------
@@ -98,7 +110,9 @@ for (c in sufix_cols){
 result <- data.frame(colname, pvalue)
 print (result)
 
-#Conclusão: não é possível afirmar com 95% de certeza que existe diferença na insidade dos sentimentos entre os grupos antes e depois (p > 0,05).
+#Conclusão: Como os dados testados não possuem distribuição normal e 
+# não apressentam amocedasticidade, o teste T não é indicado. Portanto partimos
+# para o teste não paramétrico de Mann-Whitney
 
 
 
@@ -117,6 +131,7 @@ mediaA <- c()
 mediaD <- c()
 desvA <- c()
 desvD <- c()
+isEquals_H0 <- c()
 
 sufix_cols <-c('NFO','NFR', 'NME', 'NEU', 'PFO', 'PFR', 'PME');
 for (c in sufix_cols){
@@ -128,17 +143,54 @@ for (c in sufix_cols){
   
   colname <- append(colname, paste(colA,colD, sep=" e "))
   pvalue <- append(pvalue,wilcox$p.value)  
-  mediaA <- append(mediaA,mean(df[,colA]))
-  mediaD <- append(mediaD,mean(df[,colD]))
-  desvA <- append(desvA,sd(df[,colA]))
-  desvD <- append(desvD,sd(df[,colD]))
-  
-  
-  print(wilcox$p.value > 0.05)
-  
+  mediaA <- append(mediaA, round(mean(df[,colA]), digits = 2))
+  mediaD <- append(mediaD, round(mean(df[,colD]), digits = 2))
+  desvA <- append(desvA,   round(sd(df[,colA]), digits = 2))
+  desvD <- append(desvD,   round(sd(df[,colD]), digits = 2))
+  isEquals_H0 <- append(isEquals_H0, wilcox$p.value > 0.05)
 }
-result <- data.frame(colname, pvalue, mediaA, desvA, mediaD, desvD)
+result <- data.frame(colname, pvalue, mediaA, desvA, mediaD, desvD, isEquals_H0)
 print (result)
 
-#Conclusão: é possível afirmar, com pelo menos 95% de certeza, que existe diferença na intensidade dos sentimentos apenas entre os grupos "A_NFO e D_NFO" (p-value < 0.05).  
+#Conclusão: é possível afirmar, com pelo menos 95% de certeza, que existe diferença na intensidade dos sentimentos apenas entre os grupos "A_NFO e D_NFO" e "A_PFR e D_PFR" (p-value < 0.05).  
+
+
+
+# ---------------------------------------------------------------------
+# Vargha & Delaney's A12
+# ------------------------------
+# 
+# - varia de 0 a 1 ( < 0.60 pequeno, <0.75 médio, > 0.75 grande)
+# - O resultado do teste representa o número de vezes em que a série A foi maior do que a série B
+# ------------------------------
+
+vargha.delaney <- function(r1, r2) {
+  m <- length(r1);
+  n <- length(r2);
+  return ((sum(rank(c(r1, r2))[seq_along(r1)]) / m - (m + 1) / 2) / n);
+}
+
+
+colname <- c()
+efeito <- c()
+
+sufix_cols <-c('NFO','NFR', 'NME', 'NEU', 'PFO', 'PFR', 'PME');
+for (c in sufix_cols){
+  
+  colA = paste0('A_',c)
+  colD = paste0('D_',c)
+  
+  varg = vargha.delaney(df[,colA], df[,colD])
+  
+  colname <- append(colname, paste(colA,colD, sep=" e "))
+  efeito <- append(efeito, varg)
+  
+}
+
+result <- data.frame(colname, efeito )
+print (result)
+#Conclusão: Aplicando um teste de Wilcoxon observamos diferenças significativas com tamanhos de efeito 0,55 e 0,41 entre o antes e depois dos percentuais nos grupos "Negativo Forte" e "Positivo Fraco" respectivamente.
+# A proximidade de 0,5 no tamanha de efeito calculado indica que, apesar de haver uma diferença significativa entre os grupos, essa diferença é considereda pequena.
+
+
 
