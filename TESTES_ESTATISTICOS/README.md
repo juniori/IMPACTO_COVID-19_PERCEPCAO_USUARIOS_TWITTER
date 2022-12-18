@@ -1,6 +1,6 @@
 
 ## exp1_perc.csv
-> Este arquivo contém 14 séries com percentuais para cada uma dos 447 usuários analisados, sendo 1 percentual para cada categoria referente a classificação dos tweets de cada usuário (negativo forte, negativo médio, negativo fraco, neutro, positivo fraco, positivo médio e positivo forte) antes e depois do tweet de referência.
+> Este arquivo contém 14 séries com percentuais para cada um dos 447 usuários analisados, sendo 1 percentual para cada categoria referente a classificação dos tweets de cada usuário (negativo forte, negativo médio, negativo fraco, neutro, positivo fraco, positivo médio e positivo forte) antes e depois do tweet base.
 - grupo_sent_vader_subcateg - Identificador do usuário
 - A_NFO - Antes Negativo Forte
 - A_NFR - Antes Negativo Fraco
