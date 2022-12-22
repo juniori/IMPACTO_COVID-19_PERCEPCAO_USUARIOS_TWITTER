@@ -1,12 +1,15 @@
 
 # Experimento 1
-exp1_sent_vader_subcateg_perc.csv
+- exp1_sent_vader_subcateg_perc.csv
 
 # Experimento 2
-exp2_sent_poli_subcateg_perc.csv
-exp2_sent_poli_subcateg_pt_perc.csv
-exp2_sent_textblob_subcateg_perc.csv
-exp2_sent_vader_subcateg_perc.csv
+- exp2_sent_poli_subcateg_perc.csv
+- exp2_sent_poli_subcateg_pt_perc.csv
+- exp2_sent_textblob_subcateg_perc.csv
+- exp2_sent_vader_subcateg_perc.csv
+
+* O arquivo Testes_Shapiro_Mann-Whitney_Vargha_Delaney_sobre_intensidades_sentimentos.r contém o código em linguagem r utilizado para executar os testes.
+
 
 > Este um dos arquivos de dados (.csv) contém 14 séries com percentuais para cada um dos usuários analisados, sendo um percentual para cada categoria referente a classificação dos tweets de cada usuário (negativo forte, negativo médio, negativo fraco, neutro, positivo fraco, positivo médio e positivo forte) antes e depois do tweet base. Nestes arquivos os números estão representados em formato percentual representando o percentual de tweets do usuário em cada um dos sentimentos.
 
