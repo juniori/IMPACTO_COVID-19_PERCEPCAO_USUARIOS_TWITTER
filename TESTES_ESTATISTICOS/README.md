@@ -8,8 +8,6 @@
 - exp2_sent_textblob_subcateg_perc.csv
 - exp2_sent_vader_subcateg_perc.csv
 
-* O arquivo Testes_Shapiro_Mann-Whitney_Vargha_Delaney_sobre_intensidades_sentimentos.r contém o código em linguagem r utilizado para executar os testes.
-
 
 > Este um dos arquivos de dados (.csv) contém 14 séries com percentuais para cada um dos usuários analisados, sendo um percentual para cada categoria referente a classificação dos tweets de cada usuário (negativo forte, negativo médio, negativo fraco, neutro, positivo fraco, positivo médio e positivo forte) antes e depois do tweet base. Nestes arquivos os números estão representados em formato percentual representando o percentual de tweets do usuário em cada um dos sentimentos.
 
@@ -28,3 +26,10 @@
 - D_PFO - % de tweets Depois Positivo Forte do usuário
 - D_PFR - % de tweets Depois Positivo Fraco do usuário
 - D_PME - % de tweets Depois Positivo Médio do usuário
+
+Arquivos de código fonte:
+```
+-  O arquivo Testes_Shapiro_Mann-Whitney_Vargha_Delaney_sobre_intensidades_sentimentos.r contém o código em linguagem r utilizado para executar os testes.
+-  Agrupamento dos tweets por usuário e transformção em percentuais para cada sentimento: https://colab.research.google.com/drive/1pYVi_yLOsbZmJ7j1hnd17X9KUr4T-p5b?usp=sharing
+```
+
