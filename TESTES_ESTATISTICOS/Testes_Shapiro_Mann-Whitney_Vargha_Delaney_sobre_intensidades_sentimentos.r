@@ -1,16 +1,15 @@
 #https://rpubs.com/MauryAntunes/508076
 
 rm(list = ls())
-source("funcoes.r") 
 
 #Session work directory: C:\Users\junior\Google Drive\_Mestrado\SEAN\Dissertacao_Celso\resources\datasets\exp1_disp.csv
 
 
-#df <- read.csv('exp1_sent_vader_subcateg_perc.csv', header = TRUE, sep = ',' , colClasses=c("NULL", NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
+df <- read.csv('exp1_sent_vader_subcateg_perc.csv', header = TRUE, sep = ',' , colClasses=c("NULL", NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
 #df <- read.csv('exp2_sent_vader_subcateg_perc.csv', header = TRUE, sep = ',' , colClasses=c("NULL", NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
 #df <- read.csv('exp2_sent_textblob_subcateg_perc.csv', header = TRUE, sep = ',' , colClasses=c("NULL", NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
 #df <- read.csv('exp2_sent_poli_subcateg_perc.csv', header = TRUE, sep = ',' , colClasses=c("NULL", NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
-df <- read.csv('exp2_sent_poli_subcateg_pt_perc.csv', header = TRUE, sep = ',' , colClasses=c("NULL", NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
+#df <- read.csv('exp2_sent_poli_subcateg_pt_perc.csv', header = TRUE, sep = ',' , colClasses=c("NULL", NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA))
 
 
 
