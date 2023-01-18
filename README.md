@@ -11,3 +11,6 @@
 
 ## TESTES_ESTATISTICOS
 - Testes Shapiro, Mann-Whitney e Vargha_Delaney sobre intensidades sentimentos e datasets utilizados.
+
+## SRC_COLETA_PROCESSAMENTO_GRAFICOS
+- Contém os códigos fontes utilizados no processo de coleta, processamento e renderização dos gráficos.
